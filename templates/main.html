@@ -13,7 +13,16 @@
         crossorigin="anonymous"></script>
 
 
+    <style>
+        .my-transparent-button {
+            background-color: transparent !important;
+            background-image: none !important;
+            border-color: transparent;
+            border: none;
 
+            /* color: #FFFFFF; */
+        }
+    </style>
     <script>
         let login_check=0
 
@@ -36,16 +45,18 @@
                     temp_html = ``
                     temp_html=
                     `
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">${title}</h5>
-                                    <p class="card-text">${author}</p>
-                                    <p>${publisher}</p>
-                                    <p >${publisher_year}</p>
+                    <button class = my-transparent-button>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                        <p class="card-text">${author}</p>
+                                        <p>${publisher}</p>
+                                        <p >${publisher_year}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     `
                     $('#cards').append(temp_html)
                 })
