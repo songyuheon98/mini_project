@@ -57,28 +57,23 @@ def api_register():
     return jsonify({'result': 'success'})
 
 
-# @app.route("/login", methods=["POST"])
-# def guestbook_post():
-#     id_receive = request.form['id_give']
-#     pw_receive = request.form['pw_give']
-#     print(id_receive,pw_receive)
 
-#     #pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+@app.route('/save_comment', methods=['POST'])
+def save_comment():
+    print('api_register')
+    title_receive=request.form['title']
+    nick_name_receive = request.form['nick_name']
+    user_comment_receive = request.form['user_comment']
 
-#     all_users = list(db.mini_project.find({},{'_id':False}))
-
-#     print(all_users)
-
-#     id_existence=0
-#     for i in (all_users):
-#         if(i['id']==id_receive):
-#             if(i['pw']==int(pw_receive)):
-#                 id_existence=1
-
-
-#     print(all_users)
-#     return jsonify({'msg': id_existence})
-
+    if(nick_name_receive == "" or user_comment_receive == "" ):
+        return jsonify({'result': '항목이 누락되었습니다.'})
+    
+    db.mini_project.insert_one({
+        'title': title_receive,
+        'nick_name': nick_name_receive,
+        'user_comment_receive':user_comment_receive
+    })
+    return jsonify({'result': 'success'})
 
 
 @app.route("/reviews", methods=["GET"])
