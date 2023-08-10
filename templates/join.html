@@ -51,6 +51,7 @@
 
     <script>
         function join(){
+            console.log('join method___')
             try{
                 checkPassword()
                 $.ajax({
@@ -64,7 +65,7 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             alert('회원가입이 완료되었습니다.')
-                            window.location.href = "/main_login_fail"
+                            window.location.href = "/"
                         } else {
                             alert(response['msg'])
                         }
@@ -87,6 +88,7 @@
         function back(){
             window.location.href = '/'
         }
+
     </script>
 </head>
 
@@ -118,7 +120,7 @@
                         </div>
                         <div class="form-group">
                             <button onclick="join()" id="signupSubmit" type="submit" class="btn btn-info btn-block">완료</button>
-                            <button onclick="back()" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
+                            <button onclick="location.href='/asdfas'" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
                         </div>
                         <hr>
                     </form>
@@ -126,6 +128,7 @@
             </div>
         </div>
     </div>
+    <button onclick="location.href='/'" type="submit">메인으로</button>
 </body>
 
 </html>

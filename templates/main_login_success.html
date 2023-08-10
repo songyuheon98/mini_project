@@ -45,7 +45,7 @@
                     temp_html = ``
                     temp_html=
                     `
-                    <button class = my-transparent-button>
+                    <button class = my-transparent-button onclick=reviews()>
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -98,6 +98,9 @@
                 
             });
         }
+        function reviews(){
+            location.href="/reviews";
+        }
 
  
     </script>
@@ -114,7 +117,6 @@
             <input class="form-control me-2" type="text" id="pw" placeholder="PW" aria-label="Search">
             <button class="btn btn-outline-success" onclick= "login()" style="margin:0px 10px 0px 10px;" type="submit">Login</button>
             <button class="btn btn-outline-success" onclick="location.href='join'" id="join" type="submit">Join</button>
-            <!-- <a href="./join.html"><button class="btn btn-outline-success"  type="submit">Join</button></a> -->
             </div>
         </div>
     </nav>
