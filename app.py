@@ -40,6 +40,7 @@ def api_register():
     nickname_receive = request.form['nickname_give']
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
     print(pw_hash)
 
     db.mini_project.insert_one({
