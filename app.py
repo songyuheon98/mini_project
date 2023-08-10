@@ -22,8 +22,15 @@ import datetime
 
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
+
 import hashlib
 
+
+
+@app.route('/')
+def home():
+    return render_template('main_login_fail.html')
+    
 
 
 @app.route('/join', methods=['GET'])
@@ -54,46 +61,39 @@ def api_register():
 def home():
     return render_template('main.html')
 
+
 @app.route("/login", methods=["POST"])
 def guestbook_post():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     print(id_receive,pw_receive)
 
-    # all_users = list(db.users.find({},{'_id':False}))
-
-    # doc ={
-    #     'name':name_receive,
-    #     'comment':comment_receive
-    # }
-    # db.fan.insert_one(doc)
-    # doc = {'id':'bobby','pw':21} 
-
-    # db.mini_project.insert_one(doc)
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
     all_users = list(db.mini_project.find({},{'_id':False}))
 
     id_existence=0
     for i in (all_users):
         if(i['id']==id_receive):
-            if(i['pw']==int(pw_receive)):
+            if(i['pw']==int(pw_hash)):
                 id_existence=1
 
 
     print(all_users)
     return jsonify({'msg': id_existence})
 
-@app.route("/login", methods=["GET"])
-def guestbook_get():
-    all_comments = list(db.fan.find({},{'_id':False}))
 
-    return jsonify({'result': all_comments})
 
 @app.route("/reviews", methods=["GET"])
 def reviews():
-    
+    print('reviews')
+    return render_template('./reviews.html')
 
-    return 
+
+@app.route("/login_success", methods=["GET"])
+def login_success():
+    print('login_success')
+    return render_template('./main_login_success.html')
 
 
 if __name__ == '__main__':
