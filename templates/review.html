@@ -1,18 +1,90 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>리뷰 페이지</title>
+    <style>
+        /* CSS 코드 */
+        .box {
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .flex-container {
+            display: flex;
+        }
+        #review {
+            width: 100%;
+            height: 150px;
+            resize: vertical;
+        }
+        #book-image {
+            width: 30%; /* 조정된 부분 */
+            max-height: 300px; /* 최대 높이 설정 */
+            height: auto;
+        }
+        #review-container {
+            width: 60%;
+        }
+        #book-info {
+            margin-left: auto;
+            text-align: right;
+        }
+    </style>
+    <script>
+      fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
+        .then(response => response.json())
+        .then(data => {
+            const rows = data['SeoulLibraryBookRentNumInfo']['row'];
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            // 책 정보를 가져오는 부분
+            rows.forEach(book => {
+                const title = book['TITLE'];
+                const author = book['AUTHOR'];
+                const summary = book['SUMMARY'];
+                const rate = book['RATING'];
+
+                document.getElementById('book-title').textContent = title;
+                document.getElementById('author').textContent = `저자: ${author}`;
+                document.getElementById('summary').textContent = `줄거리: ${summary}`;
+                document.getElementById('rate').textContent = `평점: ${rate}`;
+            });
+        })
+        .catch(error => {
+            console.error("데이터를 가져오는 중 오류 발생:", error);
+        });
+    </script>
+</head>
+<body>
+    <h1>리뷰 페이지</h1>
+    
+    <div class="flex-container">
+        <div>
+            <h2>책 이미지</h2>
+            <img id="book-image" src="{{ imageUrl }}" alt="책 이미지">
+        </div>
         
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        <div id="review-container">
+            <h2>책 정보</h2>
+            <div id="book-info">
+                <p id="book-title" class="box">책 제목</p>
+                <p id="author" class="box">저자</p>
+                <p id="summary" class="box">줄거리</p>
+                <p id="rate" class="box">평점</p>
+            </div>
+        </div>
+    </div>
 
+    <div>
+        <h2>리뷰 작성</h2>
+        <form>
+            <label for="username">닉네임:</label>
+            <input type="text" id="username" name="username" required><br>
 
+            <label for="review">리뷰:</label><br>
+            <textarea id="review" name="review" rows="4" cols="50" required></textarea><br>
 
+            <button type="submit">리뷰 등록</button>
+        </form>
+    </div>
+</body> 
 </html>
