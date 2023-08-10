@@ -83,32 +83,22 @@
         })
 
 
-
-        const exampleReviews = [
-            { username: "User1", review: "테스트" },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-            { username: "User2", review: "테스트테스트." },
-        ];
+        //안쓰이는 코드 
+        // const exampleReviews = [
+        //     { username: "User1", review: "테스트" },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        //     { username: "User2", review: "테스트테스트." },
+        // ];
 
         
-        function showReviews() {
-            const reviewList = document.getElementById('review-list');
-            reviewList.innerHTML = ''; // 기존 내용 초기화
-
-            exampleReviews.forEach(review => {
-                const reviewItem = document.createElement('div');
-                reviewItem.className = 'box';
-                reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
-                reviewList.appendChild(reviewItem);
-            });
-        }
+        
     </script>
 </head>
 
@@ -145,7 +135,6 @@
         <h2>작성된 리뷰</h2>
     </div>
 
-
     <script>
         function submitReview() {
             const username = document.getElementById('username').value;
@@ -169,14 +158,11 @@
                 }
             })
 
-
-            exampleReviews.push({ username: username, review: userReview });
+            //안쓰이는 코드 
+            // exampleReviews.push({ username: username, review: userReview });
             showReviews();
         }
 
-
-        // 페이지 로드 시 리뷰들 보여주기
-        showReviews();
     </script>
 </body>
 </html>

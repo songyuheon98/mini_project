@@ -7,7 +7,7 @@ import certifi
 ca=certifi.where()
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.f7rylqz.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -55,7 +55,6 @@ def api_register():
     })
 
     return jsonify({'result': 'success'})
-
 
 
 @app.route('/save_comment', methods=['POST'])
