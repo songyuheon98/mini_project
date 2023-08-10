@@ -7,7 +7,7 @@ import certifi
 
 ca=certifi.where()
 
-client = MongoClient('mongodb+srv://sparta:test@cluster0.f7rylqz.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -52,11 +52,14 @@ def api_register():
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
+    print('+++++++++++++++++++++')
+    print(id_receive,pw_receive,nickname_receive)
+
     db.mini_project.insert_one({
         'id': id_receive,
-        'pw': pw_receive, 
+        'pw': pw_hash, 
         'nick': nickname_receive
-        })
+    })
 
     return jsonify({'result': 'success'})
 
@@ -67,8 +70,10 @@ def guestbook_post():
     pw_receive = request.form['pw_give']
     print(id_receive,pw_receive)
 
-    #pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
+
+    print(pw_hash)
     all_users = list(db.mini_project.find({},{'_id':False}))
 
     print(all_users)
@@ -76,7 +81,7 @@ def guestbook_post():
     id_existence=0
     for i in (all_users):
         if(i['id']==id_receive):
-            if(i['pw']==int(pw_receive)):
+            if(i['pw']==int(pw_hash)):
                 id_existence=1
 
 
