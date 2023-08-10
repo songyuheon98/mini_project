@@ -8,7 +8,7 @@ import certifi
 ca=certifi.where()
 
 client = MongoClient("mongodb+srv://test:test@cluster0.15fhovx.mongodb.net/test", tlsCAFile=ca)
-db = client.dbsparta_plus_week4
+db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
 # 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
@@ -41,18 +41,13 @@ def api_register():
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    db.user.insert_one({
+    db.mini_project.insert_one({
         'id': id_receive,
-        'pw': pw_hash, 
-        'nick': nickname_receive})
+        'pw': pw_receive, 
+        'nick': nickname_receive
+        })
 
     return jsonify({'result': 'success'})
-from flask import Flask, render_template, request, jsonify
-app = Flask(__name__)
-
-from pymongo import MongoClient
-client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
-db = client.dbsparta
 
 @app.route('/')
 def home():
@@ -102,6 +97,3 @@ def reviews():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
-
-#==================================================================================
