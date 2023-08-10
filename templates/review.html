@@ -22,40 +22,43 @@
         }
 
         #book-image {
-            width: 30%;
+            width: 40%;
             max-height: 300px;
             height: auto;
         }
 
         #review-container {
-            width: 70%; /* 수정: 10%에서 70%로 변경 */
+            width: 60%;
         }
 
         #book-info {
             text-align: left;
         }
+
+        #review-list {
+            margin-top: 20px;
+        }
     </style>
     <script>
-        fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
-            .then(response => response.json())
-            .then(data => {
-                const rows = data['SeoulLibraryBookRentNumInfo']['row'];
 
-                // 책 정보를 가져오는 부분
-                const book = rows[0]; 
-                const title = book['TITLE'];
-                const author = book['AUTHOR'];
-                const summary = book['SUMMARY'];
-                const rate = book['RATING'];
+        const exampleReviews = [
+            { username: "User1", review: "테스트" },
+            { username: "User2", review: "테스트테스트." },
+            
+        ];
 
-                document.getElementById('book-title').textContent = title;
-                document.getElementById('author').textContent = `저자: ${author}`;
-                document.getElementById('summary').textContent = `줄거리: ${summary}`;
-                document.getElementById('rate').textContent = `평점: ${rate}`;
-            })
-            .catch(error => {
-                console.error("데이터를 가져오는 중 오류 발생:", error);
+        
+        function showReviews() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = ''; // 기존 내용 초기화
+
+            exampleReviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'box';
+                reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
+                reviewList.appendChild(reviewItem);
             });
+        }
     </script>
 </head>
 
@@ -88,9 +91,26 @@
             <label for="review">리뷰:</label><br>
             <textarea id="review" name="review" rows="4" cols="50" required></textarea><br>
 
-            <button type="submit">리뷰 등록</button>
+            <button type="button" onclick="submitReview()">리뷰 등록</button>
         </form>
     </div>
+
+    <div id="review-list">
+        <h2>작성된 리뷰</h2>
+    </div>
+
+    <script>
+        function submitReview() {
+            const username = document.getElementById('username').value;
+            const userReview = document.getElementById('review').value;
+            
+            exampleReviews.push({ username: username, review: userReview });
+            showReviews();
+        }
+
+        // 페이지 로드 시 리뷰들 보여주기
+        showReviews();
+    </script>
 </body>
 
 </html>
