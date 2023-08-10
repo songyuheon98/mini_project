@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>리뷰 페이지</title>
+    <style>
+        /* CSS 코드 */
+        .box {
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        #review {
+            width: 100%;
+            height: 150px;
+            resize: vertical;
+        }
+
+        #book-image {
+            width: 40%;
+            max-height: 300px;
+            height: auto;
+        }
+
+        #review-container {
+            width: 60%;
+        }
+
+        #book-info {
+            text-align: left;
+        }
+
+        #review-list {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+
+        const exampleReviews = [
+            { username: "User1", review: "테스트" },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+        ];
+
+        
+        function showReviews() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = ''; // 기존 내용 초기화
+
+            exampleReviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'box';
+                reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
+                reviewList.appendChild(reviewItem);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Review</h1>
+
+    <div class="flex-container">
+        <div>
+            <h2>책 이미지</h2>
+            <img id="book-image" src="{{ imageUrl }}" alt="책 이미지">
+        </div>
+
+        <div id="review-container">
+            <h2>책 정보</h2>
+            <div id="book-info">
+                <p id="book-title" class="box">책 제목</p>
+                <p id="author" class="box">저자</p>
+                <p id="summary" class="box">출판사</p>
+                <p id="rate" class="box">출판년도</p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2>리뷰 작성</h2>
+        <form>
+            <label for="username">닉네임:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="review">리뷰:</label><br>
+            <textarea id="review" name="review" rows="4" cols="50" required></textarea><br>
+
+            <button type="button" onclick="submitReview()">리뷰 등록</button>
+        </form>
+    </div>
+
+    <div id="review-list">
+        <h2>작성된 리뷰</h2>
+    </div>
+
+    <script>
+        function submitReview() {
+            const username = document.getElementById('username').value;
+            const userReview = document.getElementById('review').value;
+            
+            exampleReviews.push({ username: username, review: userReview });
+            showReviews();
+        }
+
+        // 페이지 로드 시 리뷰들 보여주기
+        showReviews();
+    </script>
+</body>
+
+</html>
