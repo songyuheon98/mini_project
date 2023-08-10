@@ -79,7 +79,7 @@ def save_comment():
 
 @app.route("/comments_show", methods=["GET"])
 def comments_show():
-    print(comments_show)
+    print('comments_show')
     all_comments_data = list(db.mini_project.find({},{'_id':False}))
     return jsonify({'result': all_comments_data})
 
