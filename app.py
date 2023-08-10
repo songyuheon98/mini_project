@@ -92,7 +92,7 @@ def main_login_fail():
     return render_template('./main_login_fail.html')
 
 
-@app.route("/login_success", methods=["GET"])
+@app.route("/main_login_success", methods=["GET"])
 def login_success():
     print('login_success')
     return render_template('./main_login_success.html')

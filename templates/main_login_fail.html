@@ -28,11 +28,6 @@
         let login_check=0
 
         $(document).ready(function () {
-            fetch("http://spartacodingclub.shop/sparta_api/weather/seoul").then(res => res.json()).then(data => {
-                //console.log(data)
-                $('#temp').text(`${data['temp']}`)
-            })
-            
             fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
             .then(res => res.json()).then(data => {
                 rows= data['SeoulLibraryBookRentNumInfo']['row']
@@ -63,23 +58,6 @@
                 })
 
             })
-                //     let temp_html =``
-                    
-                //     temp_html=`            
-                //         <div class="col">
-                //             <div class="card">
-                //                 <img src="${image}"
-                //                     class="card-img-top" alt="...">
-                //                 <div class="card-body">
-                //                     <h5 class="card-title">${title}</h5>
-                //                     <p class="card-text">${desc}</p>
-                //                     <p>${star_image}</p>
-                //                     <p class="mycomment">${comment}</p>
-                //                 </div>
-                //             </div>
-                //         </div>
-                //     `
-                //     $("#cards").append(temp_html)
         })
         function login() {
                 $.ajax({
@@ -90,7 +68,7 @@
                         if (response['result'] == 'success') {
                             $.cookie('mytoken', response['token']);
                             alert('로그인 완료!')
-                            location.href="/login_success"
+                            location.href="/main_login_success"
                         } else {
                             // 로그인이 안되면 에러메시지를 띄웁니다.
                             alert(response['msg'])
@@ -100,18 +78,7 @@
             }
         function need_login(){
             alert("컨텐츠 접근을 위해 로그인이 필요합니다.")
-        }
-        function reviews(){
-            windows.location.href="/reviews";
-        }
-        
-        // function reviews(){
-        //     fetch('/reviews').then((res) => res.json()).then((data) => {
-        //     });
-        // }
-        
-
- 
+        } 
     </script>
 
 </head>
