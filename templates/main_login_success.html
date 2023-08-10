@@ -19,8 +19,6 @@
             background-image: none !important;
             border-color: transparent;
             border: none;
-
-            /* color: #FFFFFF; */
         }
     </style>
     <script>
@@ -101,7 +99,9 @@
         function reviews(){
             location.href="/reviews";
         }
-
+        function logout(){
+            location.href="/main_login_fail";
+        }
  
     </script>
 
@@ -112,6 +112,7 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand">Book Review Platform</a>
+            <button class="btn btn-outline-success" onclick= "logout()" style="margin:0px 10px 0px 10px;" type="submit">Logout</button>
         </div>
     </nav>
 
