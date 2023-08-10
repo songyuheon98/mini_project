@@ -13,7 +13,16 @@
         crossorigin="anonymous"></script>
 
 
+    <style>
+        .my-transparent-button {
+            background-color: transparent !important;
+            background-image: none !important;
+            border-color: transparent;
+            border: none;
 
+            /* color: #FFFFFF; */
+        }
+    </style>
     <script>
         let login_check=0
 
@@ -36,16 +45,18 @@
                     temp_html = ``
                     temp_html=
                     `
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">${title}</h5>
-                                    <p class="card-text">${author}</p>
-                                    <p>${publisher}</p>
-                                    <p >${publisher_year}</p>
+                    <button class = my-transparent-button onclick=reviews()>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                        <p class="card-text">${author}</p>
+                                        <p>${publisher}</p>
+                                        <p >${publisher_year}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     `
                     $('#cards').append(temp_html)
                 })
@@ -69,26 +80,27 @@
                 //     `
                 //     $("#cards").append(temp_html)
         })
-        function login() {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/login",
-                    data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
-                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
-                            $.cookie('mytoken', response['token']);
+        function login(){
+            let id =$("#id").val()
+            let pw = $("#pw").val()           
+            let formData = new FormData();
 
-                            alert('로그인 완료!')
-                            window.location.href = '/'
-                        } else {
-                            // 로그인이 안되면 에러메시지를 띄웁니다.
-                            alert(response['msg'])
-                        }
-                    }
-                })
-            }
+            formData.append("id_give", id);
+            formData.append("pw_give", pw);
+
+            fetch('/login', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                if(data["msg"]==0){
+                    alert("로그인 실패");    
+                }
+                else{
+                    alert("로그인 성공");    
+                }
+                
+            });
+        }
+        function reviews(){
+            location.href="/reviews";
+        }
 
  
     </script>
@@ -104,11 +116,10 @@
             <input class="form-control me-2" type="text" id="id" placeholder="ID" aria-label="Search">
             <input class="form-control me-2" type="text" id="pw" placeholder="PW" aria-label="Search">
             <button class="btn btn-outline-success" onclick= "login()" style="margin:0px 10px 0px 10px;" type="submit">Login</button>
-            <a href="./join.html"><button class="btn btn-outline-success" onclick= "join()" style="margin:0px 10px 0px 10px;"  type="submit">Join</button></a>
+            <button class="btn btn-outline-success" onclick="location.href='join'" id="join" type="submit">Join</button>
             </div>
         </div>
     </nav>
-    
 
     <div class="mycards">
         <div id = "cards" class="row row-cols-1 row-cols-md-4 g-4">
