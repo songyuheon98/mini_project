@@ -16,7 +16,6 @@
 
     <link rel="stylesheet" href="style.css">
     <style>
-
         .mytitle {
             font-size: 30px;
             background-color: black;
@@ -80,7 +79,38 @@
             $('#author').text(author)
             $('#publisher').text(publisher)
             $('#publisher_year').text(publisher_year)
+
+            show_comments()
+
         })
+        function show_comments() {
+            // /$('#review-list').empty()
+            fetch('/comments_show').then((res) => res.json()).then((data) => {
+                rows = data['result']
+                rows.forEach((n) => {
+                    console.log(n)
+                    if(n['title']==title){
+                        let title = n['title']
+                        let comments= n['user_comment_receive']
+                        let nick_name=n['nick_name']
+                        console.log(nick_name,comments)
+                        let temp_html=
+                        `
+                        <div>
+                            <strong>${nick_name}:</strong> ${comments}    
+                        </div>
+
+                        `
+                        $('#review_list').append(temp_html)
+                    
+                    }
+                
+                })
+
+
+            })
+        }
+
 
 
 
@@ -106,7 +136,7 @@
                 const reviewItem = document.createElement('div');
                 reviewItem.className = 'box';
                 reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
-                reviewItem.style='width: 750px; height: auto; margin: 0 auto;'
+                reviewItem.style = 'width: 750px; height: auto; margin: 0 auto;'
                 reviewList.appendChild(reviewItem);
             });
         }
@@ -120,8 +150,9 @@
 
         <div>
 
-            <div id="review-container" style="width: 100%; height: auto; margin: 0 auto; padding: 20px 20px 100px 20px;">
-                
+            <div id="review-container"
+                style="width: 100%; height: auto; margin: 0 auto; padding: 20px 20px 100px 20px;">
+
                 <div id="book-info" style="text-align: center;">
                     <p id="book-title" class="box">책 제목</p>
                     <p id="author" class="box">저자</p>
@@ -142,7 +173,7 @@
             </div>
         </div>
     </div>
-    <div id="review-list" sytle="width: 750px; height auto;">
+    <div id="review_list" sytle="width: 750px; height auto;">
         <h2>작성된 리뷰</h2>
     </div>
 
@@ -171,13 +202,12 @@
             })
 
 
-            exampleReviews.push({ username: username, review: userReview });
-            showReviews();
+
         }
 
 
         // 페이지 로드 시 리뷰들 보여주기
-        showReviews();
+
     </script>
 </body>
 
