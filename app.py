@@ -60,8 +60,8 @@ def api_register():
 
 @app.route('/save_comment', methods=['POST'])
 def save_comment():
-    print('api_register')
-    title_receive=request.form['title']
+    print('save_commnet')
+    title_receive=request.form['book_title']
     nick_name_receive = request.form['nick_name']
     user_comment_receive = request.form['user_comment']
 
