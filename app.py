@@ -31,7 +31,6 @@ def home():
     
 @app.route('/join', methods=['GET'])
 def register():
-    print('join')
     return render_template('join.html')
 
 @app.route('/api/join', methods=['POST'])
@@ -41,14 +40,19 @@ def api_register():
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
 
+    if(id_receive == "" or pw_receive == "" or nickname_receive == ""):
+        return jsonify({'result': '항목이 누락되었습니다.'})
+
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    print(pw_hash)
+
+    print('+++++++++++++++++++++')
+    print(id_receive,pw_receive,nickname_receive)
 
     db.mini_project.insert_one({
         'id': id_receive,
         'pw': pw_hash, 
         'nick': nickname_receive
-        })
+    })
 
     return jsonify({'result': 'success'})
 
