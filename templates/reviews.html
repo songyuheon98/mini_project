@@ -62,6 +62,8 @@
         }
     </style>
     <script>
+        let title,author,publisher,publisher_year
+        
         $(document).ready(function () {
             temp = location.href.split("?");
         
@@ -79,6 +81,9 @@
             $('#publisher').text(publisher)
             $('#publisher-year').text(publisher-year)
         })
+
+
+
         const exampleReviews = [
             { username: "User1", review: "테스트" },
             { username: "User2", review: "테스트테스트." },
@@ -144,11 +149,32 @@
         function submitReview() {
             const username = document.getElementById('username').value;
             const userReview = document.getElementById('review').value;
-            
+
+            $.ajax({
+                    type: "POST",
+                    url: "/save_comment",
+                    data: {
+                        book_title: title,
+                        nick_name: username,
+                        user_comment: userReview
+                    },
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            alert('댓글 등록이 완료되었습니다.')
+                        } else {
+                            alert(response['msg'])
+                    }
+                }
+            })
+
             exampleReviews.push({ username: username, review: userReview });
             showReviews();
         }
 
+        function save_comment(){
+
+
+        }
         // 페이지 로드 시 리뷰들 보여주기
         showReviews();
     </script>
