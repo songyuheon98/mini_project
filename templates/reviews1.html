@@ -87,34 +87,31 @@
 
 
 
-
-        function show_comments() {
-            // /$('#review-list').empty()
-            fetch('/comments_show').then((res) => res.json()).then((data) => {
-                rows = data['result']
-                rows.forEach((n) => {
-                    console.log(n)
-                    if(n['title']==title){
-                        let title = n['title']
-                        let comments= n['user_comment_receive']
-                        let nick_name=n['nick_name']
-
-                        console.log(nick_name,comments)
-                        let temp_html=
-                        `
-                            <div>
-                                <strong>${nick_name}:</strong> ${comments}    
-                            </div>
-
-                        `
-                        $('#review_list').append(temp_html)
-                    
-                    }
-                
-                })
+        const exampleReviews = [
+            { username: "User1", review: "테스트" },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+            { username: "User2", review: "테스트테스트." },
+        ];
 
 
-            })
+        function showReviews() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = ''; // 기존 내용 초기화
+
+            exampleReviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'box';
+                reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
+                reviewItem.style = 'width: 750px; height: auto; margin: 0 auto;'
+                reviewList.appendChild(reviewItem);
+            });
         }
     </script>
 </head>
@@ -154,13 +151,13 @@
                 <div style="width: auto; height: 50px;">
                     <button type="button" class="btn btn-outline-secondary" onclick="submitReview()"
                         style="float: right;">SubMit</button>
-                    <button onclick="location.href='/main_login_success'" id="backtoMain" type="submit" class="btn btn-outline-secondary"
+                    <button onclick="location.href='/'" id="backtoMain" type="submit" class="btn btn-outline-secondary"
                         style="float: right; margin: 0px 10px 0px 0px ; ">Main</button>
                 </div>
             </div>
 
-        <div id="review_list" sytle="width: 750px; height auto;">
-            
+        <div id="review-list" sytle="width: 750px; height auto;">
+            <h2>작성된 리뷰</h2>
         </div>
     </div>
     </div>
@@ -180,15 +177,21 @@
                 },
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        window.location.reload()
                         alert('댓글 등록이 완료되었습니다.')
                     } else {
                         alert(response['msg'])
                     }
                 }
             })
+
+
+            exampleReviews.push({ username: username, review: userReview });
+            showReviews();
         }
+
+
         // 페이지 로드 시 리뷰들 보여주기
+        showReviews();
     </script>
 
 </body>
