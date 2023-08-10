@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>리뷰 페이지</title>
     <style>
@@ -9,35 +10,39 @@
             padding: 10px;
             margin: 10px 0;
         }
+
         .flex-container {
             display: flex;
         }
+
         #review {
             width: 100%;
             height: 150px;
             resize: vertical;
         }
+
         #book-image {
-            width: 30%; /* 조정된 부분 */
-            max-height: 300px; /* 최대 높이 설정 */
+            width: 30%;
+            max-height: 300px;
             height: auto;
         }
+
         #review-container {
-            width: 60%;
+            width: 70%; /* 수정: 10%에서 70%로 변경 */
         }
+
         #book-info {
-            margin-left: auto;
-            text-align: right;
+            text-align: left;
         }
     </style>
     <script>
-      fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
-        .then(response => response.json())
-        .then(data => {
-            const rows = data['SeoulLibraryBookRentNumInfo']['row'];
+        fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
+            .then(response => response.json())
+            .then(data => {
+                const rows = data['SeoulLibraryBookRentNumInfo']['row'];
 
-            // 책 정보를 가져오는 부분
-            rows.forEach(book => {
+                // 책 정보를 가져오는 부분
+                const book = rows[0]; 
                 const title = book['TITLE'];
                 const author = book['AUTHOR'];
                 const summary = book['SUMMARY'];
@@ -47,22 +52,22 @@
                 document.getElementById('author').textContent = `저자: ${author}`;
                 document.getElementById('summary').textContent = `줄거리: ${summary}`;
                 document.getElementById('rate').textContent = `평점: ${rate}`;
+            })
+            .catch(error => {
+                console.error("데이터를 가져오는 중 오류 발생:", error);
             });
-        })
-        .catch(error => {
-            console.error("데이터를 가져오는 중 오류 발생:", error);
-        });
     </script>
 </head>
+
 <body>
     <h1>Review</h1>
-    
+
     <div class="flex-container">
         <div>
             <h2>책 이미지</h2>
             <img id="book-image" src="{{ imageUrl }}" alt="책 이미지">
         </div>
-        
+
         <div id="review-container">
             <h2>책 정보</h2>
             <div id="book-info">
@@ -86,5 +91,6 @@
             <button type="submit">리뷰 등록</button>
         </form>
     </div>
-</body> 
+</body>
+
 </html>
