@@ -2,12 +2,12 @@ from flask import Flask, render_template, jsonify, request, session, redirect, u
 
 app = Flask(__name__)
 
-from pymongo import MongoClient
 import certifi
 
 ca=certifi.where()
 
-client = MongoClient('mongodb+srv://sparta:test@cluster0.pggigqp.mongodb.net/?retryWrites=true&w=majority')
+from pymongo import MongoClient
+client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -65,6 +65,7 @@ def save_comment():
     nick_name_receive = request.form['nick_name']
     user_comment_receive = request.form['user_comment']
 
+    print(title_receive,nick_name_receive,user_comment_receive)
     if(nick_name_receive == "" or user_comment_receive == "" ):
         return jsonify({'result': '항목이 누락되었습니다.'})
     
@@ -73,6 +74,7 @@ def save_comment():
         'nick_name': nick_name_receive,
         'user_comment_receive':user_comment_receive
     })
+
     return jsonify({'result': 'success'})
 
 
