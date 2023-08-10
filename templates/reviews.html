@@ -79,7 +79,7 @@
             $('#book-title').text(title)
             $('#author').text(author)
             $('#publisher').text(publisher)
-            $('#publisher-year').text(publisher-year)
+            $('#publisher_year').text(publisher_year)
         })
 
 
@@ -123,7 +123,7 @@
                 <p id="book-title" class="box">책 제목</p>
                 <p id="author" class="box">저자</p>
                 <p id="publisher" class="box">출판사</p>
-                <p id="publisher-year" class="box">출판년도</p>
+                <p id="publisher_year" class="box">출판년도</p>
             </div>
         </div>
     </div>
@@ -145,11 +145,13 @@
         <h2>작성된 리뷰</h2>
     </div>
 
+
     <script>
         function submitReview() {
             const username = document.getElementById('username').value;
             const userReview = document.getElementById('review').value;
 
+            console.log("submit_review")
             $.ajax({
                     type: "POST",
                     url: "/save_comment",
@@ -167,14 +169,12 @@
                 }
             })
 
+
             exampleReviews.push({ username: username, review: userReview });
             showReviews();
         }
 
-        function save_comment(){
 
-
-        }
         // 페이지 로드 시 리뷰들 보여주기
         showReviews();
     </script>
