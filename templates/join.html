@@ -48,7 +48,7 @@
             float: right;
         }
     </style>
-    
+
     <script>
         function join(){
             try{
@@ -64,7 +64,7 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             alert('회원가입이 완료되었습니다.')
-                            window.location.href = '/main'
+                            window.location.href = "/main_login_fail"
                         } else {
                             alert(response['msg'])
                         }
@@ -85,7 +85,7 @@
         }
 
         function back(){
-            window.location.href = '/main'
+            window.location.href = '/main_login_fail'
         }
     </script>
 </head>
