@@ -23,13 +23,8 @@
     </style>
     <script>
         let login_check=0
-
+        let arr
         $(document).ready(function () {
-            fetch("http://spartacodingclub.shop/sparta_api/weather/seoul").then(res => res.json()).then(data => {
-                //console.log(data)
-                $('#temp').text(`${data['temp']}`)
-            })
-            
             fetch("http://openapi.seoul.go.kr:8088/4a7869566f73656138317157546a58/json/SeoulLibraryBookRentNumInfo/1/20/")
             .then(res => res.json()).then(data => {
                 rows= data['SeoulLibraryBookRentNumInfo']['row']
@@ -41,9 +36,29 @@
 
                     console.log(title,author,publisher,publisher_year)
                     temp_html = ``
+                    // temp_html=
+                    // `
+                    // <form action="./"
+                    //         <div class="col">
+                    //             <div class="card">
+                    //                 <div class="card-body">
+                    //                     <h5 class="card-title">${title}</h5>
+                    //                     <p class="card-text">${author}</p>
+                    //                     <p>${publisher}</p>
+                    //                     <p >${publisher_year}</p>
+                    //                 </div>
+                    //             </div>
+                    //         </div>
+                    //     </button>
+                    // `
+                    arr = {
+                        'title':title,
+                        'author':author
+                    }
+
                     temp_html=
                     `
-                    <button class = my-transparent-button onclick=reviews()>
+                    <button class = "my-transparent-button" onclick="reviews('${title}','${author}','${publisher}','${publisher_year}')">
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
@@ -58,25 +73,7 @@
                     `
                     $('#cards').append(temp_html)
                 })
-
             })
-                //     let temp_html =``
-                    
-                //     temp_html=`            
-                //         <div class="col">
-                //             <div class="card">
-                //                 <img src="${image}"
-                //                     class="card-img-top" alt="...">
-                //                 <div class="card-body">
-                //                     <h5 class="card-title">${title}</h5>
-                //                     <p class="card-text">${desc}</p>
-                //                     <p>${star_image}</p>
-                //                     <p class="mycomment">${comment}</p>
-                //                 </div>
-                //             </div>
-                //         </div>
-                //     `
-                //     $("#cards").append(temp_html)
         })
         function login(){
             let id =$("#id").val()
@@ -96,13 +93,15 @@
                 
             });
         }
-        function reviews(){
-            location.href="/reviews";
-        }
         function logout(){
-            location.href="/main_login_fail";
+            location.href="/main_login_fail"
         }
- 
+        function reviews(title,author,publisher,publisher_year){
+            console.log(title,author,publisher,publisher_year)
+            location.href="reviews?" + title + "/" + author + "/" + publisher+"/"+publisher_year
+
+            
+        }
     </script>
 
 </head>
