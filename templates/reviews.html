@@ -8,17 +8,16 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* CSS 코드 */
         .mytitle {
-            font-size:30px;
+            font-size: 30px;
             background-color: black;
             color: white;
             margin-bottom: 10px;
@@ -49,10 +48,6 @@
             height: auto;
         }
 
-        #review-container {
-            width: 60%;
-        }
-
         #book-info {
             text-align: left;
         }
@@ -60,27 +55,62 @@
         #review-list {
             margin-top: 20px;
         }
+
+        .button {
+            margin: auto;
+        }
     </style>
     <script>
-        let title,author,publisher,publisher_year
-        
+        let title, author, publisher, publisher_year
+
         $(document).ready(function () {
             temp = location.href.split("?");
-        
-            data=temp[1].split("/");
-            
-            
+
+            data = temp[1].split("/");
+
+
             title = decodeURI(data[0])
             author = decodeURI(data[1])
             publisher = decodeURI(data[2])
             publisher_year = decodeURI(data[3])
-            console.log(title,author,publisher,publisher_year)
+            console.log(title, author, publisher, publisher_year)
 
             $('#book-title').text(title)
             $('#author').text(author)
             $('#publisher').text(publisher)
             $('#publisher_year').text(publisher_year)
+
+            show_comments()
+
         })
+        function show_comments() {
+            // /$('#review-list').empty()
+            fetch('/comments_show').then((res) => res.json()).then((data) => {
+                rows = data['result']
+                rows.forEach((n) => {
+                    console.log(n)
+                    if(n['title']==title){
+                        let title = n['title']
+                        let comments= n['user_comment_receive']
+                        let nick_name=n['nick_name']
+                        console.log(nick_name,comments)
+                        let temp_html=
+                        `
+                        <div>
+                            <strong>${nick_name}:</strong> ${comments}    
+                        </div>
+
+                        `
+                        $('#review_list').append(temp_html)
+                    
+                    }
+                
+                })
+
+
+            })
+        }
+
 
 
         //안쓰이는 코드 
@@ -97,41 +127,53 @@
         //     { username: "User2", review: "테스트테스트." },
         // ];
 
-        
-        
+
+        function showReviews() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = ''; // 기존 내용 초기화
+
+            exampleReviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'box';
+                reviewItem.innerHTML = `<strong>${review.username}:</strong> ${review.review}`;
+                reviewItem.style = 'width: 750px; height: auto; margin: 0 auto;'
+                reviewList.appendChild(reviewItem);
+            });
+        }
     </script>
 </head>
 
 <body>
     <h1 class="mytitle">Review</h1>
+    <div style="width: 750px; height: auto; margin: 0 auto">
 
-    <div class="flex-container">
 
-        <div id="review-container">
-            <h2>책 정보</h2>
-            <div id="book-info">
-                <p id="book-title" class="box">책 제목</p>
-                <p id="author" class="box">저자</p>
-                <p id="publisher" class="box">출판사</p>
-                <p id="publisher_year" class="box">출판년도</p>
+        <div>
+
+            <div id="review-container"
+                style="width: 100%; height: auto; margin: 0 auto; padding: 20px 20px 100px 20px;">
+
+                <div id="book-info" style="text-align: center;">
+                    <p id="book-title" class="box">책 제목</p>
+                    <p id="author" class="box">저자</p>
+                    <p id="publisher" class="box">출판사</p>
+                    <p id="publisher_year" class="box">출판년도</p>
+                </div>
+            </div>
+
+            <h2>Reviews</h2>
+
+            <input type="text" id="username" name="username" placeholder="Nick Name" style="margin-bottom:  10px;"><br>
+            <textarea id="review" name="review" rows="4" cols="25" placeholder="Comment"></textarea><br>
+            <div style="width: auto; height: 50px;">
+                <button type="button" class="btn btn-outline-secondary" onclick="submitReview()"
+                    style="float: right;">SubMit</button>
+                <button onclick="location.href='/'" id="backtoMain" type="submit" class="btn btn-outline-secondary"
+                    style="float: right; margin: 0px 10px 0px 0px ; ">Main</button>
             </div>
         </div>
     </div>
-
-    <div>
-        <h2>리뷰 작성</h2>
-        <form>
-            <label for="username">닉네임:</label>
-            <input type="text" id="username" name="username" required><br>
-
-            <label for="review">리뷰:</label><br>
-            <textarea id="review" name="review" rows="4" cols="50" required></textarea><br>
-
-            <button type="button" onclick="submitReview()">리뷰 등록</button>
-        </form>
-    </div>
-
-    <div id="review-list">
+    <div id="review_list" sytle="width: 750px; height auto;">
         <h2>작성된 리뷰</h2>
     </div>
 
@@ -142,27 +184,30 @@
 
             console.log("submit_review")
             $.ajax({
-                    type: "POST",
-                    url: "/save_comment",
-                    data: {
-                        book_title: title,
-                        nick_name: username,
-                        user_comment: userReview
-                    },
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            alert('댓글 등록이 완료되었습니다.')
-                        } else {
-                            alert(response['msg'])
+                type: "POST",
+                url: "/save_comment",
+                data: {
+                    book_title: title,
+                    nick_name: username,
+                    user_comment: userReview
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('댓글 등록이 완료되었습니다.')
+                    } else {
+                        alert(response['msg'])
                     }
                 }
             })
 
-            //안쓰이는 코드 
-            // exampleReviews.push({ username: username, review: userReview });
-            showReviews();
+
+
         }
+
+
+        // 페이지 로드 시 리뷰들 보여주기
 
     </script>
 </body>
+
 </html>
