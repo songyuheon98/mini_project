@@ -35,6 +35,7 @@ def home():
 
 @app.route('/join', methods=['GET'])
 def register():
+    print('join')
     return render_template('join.html')
 
 # [회원가입 API]
@@ -42,6 +43,7 @@ def register():
 # 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
 @app.route('/api/join', methods=['POST'])
 def api_register():
+    print('api_register')
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
@@ -57,10 +59,6 @@ def api_register():
 
     return jsonify({'result': 'success'})
 
-@app.route('/')
-def home():
-    return render_template('main.html')
-
 
 @app.route("/login", methods=["POST"])
 def guestbook_post():
@@ -68,14 +66,16 @@ def guestbook_post():
     pw_receive = request.form['pw_give']
     print(id_receive,pw_receive)
 
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    #pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
     all_users = list(db.mini_project.find({},{'_id':False}))
+
+    print(all_users)
 
     id_existence=0
     for i in (all_users):
         if(i['id']==id_receive):
-            if(i['pw']==int(pw_hash)):
+            if(i['pw']==int(pw_receive)):
                 id_existence=1
 
 
@@ -88,6 +88,11 @@ def guestbook_post():
 def reviews():
     print('reviews')
     return render_template('./reviews.html')
+
+@app.route("/main_login_fail", methods=["GET"])
+def main_login_fail():
+    print('main_login_fail')
+    return render_template('./main_login_fail.html')
 
 
 @app.route("/login_success", methods=["GET"])

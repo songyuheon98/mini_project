@@ -51,6 +51,7 @@
 
     <script>
         function join(){
+            console.log('join method___')
             try{
                 checkPassword()
                 $.ajax({
@@ -64,7 +65,7 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             alert('회원가입이 완료되었습니다.')
-                            window.location.href = "/main_login_fail"
+                            window.location.href = "/"
                         } else {
                             alert(response['msg'])
                         }
@@ -85,8 +86,10 @@
         }
 
         function back(){
-            window.location.href = '/main_login_fail'
+            console.log('back')
+            
         }
+
     </script>
 </head>
 
@@ -95,7 +98,7 @@
         <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <form method="POST" action="#" role="form">
+                    <form>
                         <div class="form-group">
                             <h2>회원가입</h2>
                         </div>
@@ -118,7 +121,7 @@
                         </div>
                         <div class="form-group">
                             <button onclick="join()" id="signupSubmit" type="submit" class="btn btn-info btn-block">완료</button>
-                            <button onclick="back()" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
+                            <button onclick="location.href='/asdfas'" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
                         </div>
                         <hr>
                         
@@ -127,6 +130,7 @@
             </div>
         </div>
     </div>
+    <button onclick="location.href='/'" type="submit">메인으로</button>
 </body>
 
 </html>
