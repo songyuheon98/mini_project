@@ -7,7 +7,7 @@ import certifi
 
 ca=certifi.where()
 
-client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.pggigqp.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -25,21 +25,14 @@ import datetime
 
 import hashlib
 
-
-
 @app.route('/')
 def home():
     return render_template('main_login_fail.html')
     
-
-
 @app.route('/join', methods=['GET'])
 def register():
     return render_template('join.html')
 
-# [회원가입 API]
-# id, pw, nickname을 받아서, mongoDB에 저장합니다.
-# 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
 @app.route('/api/join', methods=['POST'])
 def api_register():
     print('api_register')
@@ -64,29 +57,27 @@ def api_register():
     return jsonify({'result': 'success'})
 
 
-@app.route("/login", methods=["POST"])
-def guestbook_post():
-    id_receive = request.form['id_give']
-    pw_receive = request.form['pw_give']
-    print(id_receive,pw_receive)
+# @app.route("/login", methods=["POST"])
+# def guestbook_post():
+#     id_receive = request.form['id_give']
+#     pw_receive = request.form['pw_give']
+#     print(id_receive,pw_receive)
 
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+#     #pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
+#     all_users = list(db.mini_project.find({},{'_id':False}))
 
-    print(pw_hash)
-    all_users = list(db.mini_project.find({},{'_id':False}))
+#     print(all_users)
 
-    print(all_users)
-
-    id_existence=0
-    for i in (all_users):
-        if(i['id']==id_receive):
-            if(i['pw']==int(pw_hash)):
-                id_existence=1
+#     id_existence=0
+#     for i in (all_users):
+#         if(i['id']==id_receive):
+#             if(i['pw']==int(pw_receive)):
+#                 id_existence=1
 
 
-    print(all_users)
-    return jsonify({'msg': id_existence})
+#     print(all_users)
+#     return jsonify({'msg': id_existence})
 
 
 
@@ -106,6 +97,24 @@ def login_success():
     print('login_success')
     return render_template('./main_login_success.html')
 
-
+@app.route('/login', methods=['POST'])
+def api_login():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']    
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    result = db.mini_project.find_one({'id': id_receive, 'pw': pw_hash})
+    if result is not None:
+        payload = {
+            'id': id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=600),
+            'nickname': result['nick']
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return jsonify({'result': 'success', 'token': token })
+        
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+    
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+    
