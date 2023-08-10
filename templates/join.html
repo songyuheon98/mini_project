@@ -51,7 +51,6 @@
 
     <script>
         function join(){
-            console.log('join method___')
             try{
                 checkPassword()
                 $.ajax({
@@ -65,13 +64,14 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             alert('회원가입이 완료되었습니다.')
-                            window.location.href = "/"
+                            window.location.href = '/'
                         } else {
-                            alert(response['msg'])
+                            alert(response['result'])
                         }
                     }
                 })
-            }catch(EmptyElementException){
+            }catch(e){
+                alert('비밀번호를 확인해 주세요')
                 console.log("잘못된 입력입니다.")
             }
         }
@@ -81,7 +81,7 @@
             let password = $('#signupPassword').val()
             let again_password = $('#signupPasswordagain').val()
             if(password != again_password){
-                throw EmptyElementException
+                throw e
             }
         }
 
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="signupName">아이디</label>
-                            <input id="signupName" type="text" maxlength="50" class="form-control" required>
+                            <input id="signupName" type="text" maxlength="50" class="form-control" value="" required>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="signupEmail">닉네임</label>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="form-group">
                             <button onclick="join()" id="signupSubmit" type="submit" class="btn btn-info btn-block">완료</button>
-                            <button onclick="location.href='/asdfas'" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
+                            <button onclick="back()" id="backtoMain" type="submit" class="btn btn-info btn-block">메인으로</button>
                         </div>
                         <hr>
                     </form>
@@ -128,7 +128,6 @@
             </div>
         </div>
     </div>
-    <button onclick="location.href='/'" type="submit">메인으로</button>
 </body>
 
 </html>

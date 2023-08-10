@@ -7,7 +7,7 @@ import certifi
 
 ca=certifi.where()
 
-client = MongoClient('mongodb+srv://songyuheon2750:2028sus300djr@cluster0.mcsffwd.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.f7rylqz.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -35,7 +35,6 @@ def home():
 
 @app.route('/join', methods=['GET'])
 def register():
-    print('join')
     return render_template('join.html')
 
 # [회원가입 API]
@@ -48,13 +47,14 @@ def api_register():
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
 
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    if(id_receive == "" or pw_receive == "" or nickname_receive == ""):
+        return jsonify({'result': '항목이 누락되었습니다.'})
 
-    print(pw_hash)
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
     db.mini_project.insert_one({
         'id': id_receive,
-        'pw': pw_hash, 
+        'pw': pw_receive, 
         'nick': nickname_receive
         })
 
