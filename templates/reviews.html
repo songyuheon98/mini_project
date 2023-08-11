@@ -68,10 +68,16 @@
         let title, author, publisher, publisher_year
 
         $(document).ready(function () {
+            // "reviews?" + title + "/" + author + "/" + publisher+"/"+publisher_year
             temp = location.href.split("?");
+            // "reviews"
+            // title + "/" + author + "/" + publisher+"/"+publisher_year
 
             data = temp[1].split("/");
-
+            // title 
+            // author 
+            // publisher
+            // publisher_year    
 
             title = decodeURI(data[0])
             author = decodeURI(data[1])
@@ -109,13 +115,9 @@
                             </div>
 
                         `
-                        $('#review_list').append(temp_html)
-                    
-                    }
-                
+                        $('#review_list').append(temp_html)                   
+                    }               
                 })
-
-
             })
         }
     </script>
