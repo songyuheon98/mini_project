@@ -66,7 +66,7 @@ def save_comment():
 
     print(title_receive,nick_name_receive,user_comment_receive)
     if(nick_name_receive == "" or user_comment_receive == "" ):
-        return jsonify({'result': '항목이 누락되었습니다.'})
+        return jsonify({'msg': '항목이 누락되었습니다.'})
     
     db.mini_project.insert_one({
         'title': title_receive,
@@ -74,7 +74,7 @@ def save_comment():
         'user_comment_receive':user_comment_receive
     })
 
-    return jsonify({'result': 'success'})
+    return jsonify({'msg': 'success'})
 
 @app.route("/comments_show", methods=["GET"])
 def comments_show():
